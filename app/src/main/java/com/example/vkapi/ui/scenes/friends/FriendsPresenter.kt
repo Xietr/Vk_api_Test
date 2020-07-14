@@ -1,7 +1,7 @@
 package com.example.vkapi.ui.scenes.friends
 
 import com.example.domain.entities.VkFriendEntity
-import com.example.domain.gateways.FriendsGateway
+import com.example.domain.interactors.GetFriendsUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -11,13 +11,13 @@ import moxy.MvpPresenter
 import javax.inject.Inject
 
 @InjectViewState
-class FriendsPresenter @Inject constructor(private val friendsGateway: FriendsGateway) :
+class FriendsPresenter @Inject constructor(private val getFriendsUseCase: GetFriendsUseCase) :
     MvpPresenter<FriendsView>() {
 
     private val vkFriendsList = arrayListOf<VkFriendEntity>()
     private val compositeDisposable = CompositeDisposable()
     private var currentPage = 0
-    private var isLoading: Boolean = false
+    private var isLoading = false
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -26,9 +26,9 @@ class FriendsPresenter @Inject constructor(private val friendsGateway: FriendsGa
 
     fun getFriends() {
         val countOfItemsShouldBe = currentPage * PAGE_SIZE
-        if (isLoading or (vkFriendsList.size < countOfItemsShouldBe)) return
+        if (isLoading || (vkFriendsList.size < countOfItemsShouldBe)) return
 
-        friendsGateway.getFriends(currentPage, PAGE_SIZE)
+        getFriendsUseCase(currentPage, PAGE_SIZE)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
@@ -48,7 +48,7 @@ class FriendsPresenter @Inject constructor(private val friendsGateway: FriendsGa
                 viewState.setAdapterItems(vkFriendsList)
             }, {
                 it.printStackTrace()
-                viewState.showError("Ошибка подключения")
+                viewState.showError(it)
             })
             .addTo(compositeDisposable)
     }

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.domain.entities.VkFriendEntity
 import com.example.vkapi.R
-import com.example.vkapi.ui.utils.FriendsDiffUtilCallback
+import com.example.vkapi.ui.adapters.diff_utils.FriendsDiffUtilCallback
 import kotlinx.android.synthetic.main.item_friend.view.*
 
 class FriendsAdapter : RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder>() {
@@ -16,7 +16,12 @@ class FriendsAdapter : RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder>() 
     private var friends = arrayListOf<VkFriendEntity>()
 
     fun setNewFriendsList(friends: ArrayList<VkFriendEntity>) {
-        val diffResult = DiffUtil.calculateDiff(FriendsDiffUtilCallback(this.friends, friends))
+        val diffResult = DiffUtil.calculateDiff(
+            FriendsDiffUtilCallback(
+                this.friends,
+                friends
+            )
+        )
         this.friends = friends
         diffResult.dispatchUpdatesTo(this)
     }

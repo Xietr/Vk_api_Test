@@ -33,11 +33,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //Tests
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
 
     //Rx
     implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlin"
 
     //VK
-    implementation 'com.vk:androidsdk:2.2.1'
+    implementation 'com.vk:androidsdk:2.2.3'
 }

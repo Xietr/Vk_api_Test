@@ -18,5 +18,5 @@ interface FriendsView : MvpView {
     fun setIsIsRefreshing(isRefreshing: Boolean)
 
     @StateStrategyType(AddToEndSingleStrategy::class)
-    fun showError(errorMessage: String)
+    fun showError(throwable: Throwable)
 }

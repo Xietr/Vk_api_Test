@@ -23,6 +23,7 @@
             android:id="@+id/friendImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/friend_image_view_description"
             tools:src="@drawable/ic_vk_logo" />
 
     </androidx.cardview.widget.CardView>

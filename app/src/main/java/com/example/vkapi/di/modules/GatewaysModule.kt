@@ -7,12 +7,10 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [ApiModule::class])
+@Module
 class GatewaysModule {
 
     @Provides
     @Singleton
-    fun provideFriendsGateway(vkApi: VK): FriendsGateway =
-        VkFriendsGateway(vkApi)
-
+    fun provideFriendsGateway(vk: VK): FriendsGateway = VkFriendsGateway(vk)
 }

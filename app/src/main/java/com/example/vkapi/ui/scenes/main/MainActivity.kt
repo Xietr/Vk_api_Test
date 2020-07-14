@@ -2,7 +2,6 @@ package com.example.vkapi.ui.scenes.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
@@ -43,12 +42,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private fun logout() {
         AlertDialog.Builder(this)
-            .setTitle("Выйти из аккаунта ВК")
-            .setMessage("Вы действительно хотите выйти из аккаунта?")
-            .setPositiveButton("Да") { _, _ ->
+            .setTitle(getString(R.string.vk_logout))
+            .setMessage(getString(R.string.exit_confirmation_question))
+            .setPositiveButton(getString(R.string.positive_button)) { _, _ ->
                 VK.logout()
                 supportFragmentManager.navigate(AuthorizationFragment())
-            }.setNegativeButton("Нет", null)
+            }.setNegativeButton(getString(R.string.negative_button), null)
             .show()
     }
 
@@ -73,12 +72,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object : VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-                Log.v("authorization success", token.toString())
                 supportFragmentManager.navigate(FriendsFragment())
             }
 
             override fun onLoginFailed(errorCode: Int) {
-                Log.e("authorization error", errorCode.toString())
                 supportFragmentManager.navigate(AuthorizationFragment())
             }
         }

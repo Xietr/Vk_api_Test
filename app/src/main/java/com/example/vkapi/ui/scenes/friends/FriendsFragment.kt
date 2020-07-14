@@ -1,5 +1,6 @@
 package com.example.vkapi.ui.scenes.friends
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -15,24 +16,37 @@ import com.example.vkapi.ui.listeners.PaginationScrollListener
 import com.example.vkapi.ui.utils.setVisibility
 import kotlinx.android.synthetic.main.fragment_friends.*
 import moxy.MvpAppCompatFragment
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
+import moxy.ktx.moxyPresenter
+import javax.inject.Inject
+import javax.inject.Provider
+
 
 class FriendsFragment : MvpAppCompatFragment(R.layout.fragment_friends), FriendsView {
 
-    @InjectPresenter
-    lateinit var presenter: FriendsPresenter
+    @Inject
+    lateinit var presenterProvider: Provider<FriendsPresenter>
 
-    @ProvidePresenter
-    fun providePresenter() = App.appComponent.provideFriendsPresenter()
+    private val presenter by moxyPresenter {
+        presenterProvider.get()
+    }
 
     private lateinit var adapter: FriendsAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as App).appComponent.inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        setHasOptionsMenu(true)
-        (activity as AppCompatActivity).supportActionBar?.title = "Friends"
+        (activity as AppCompatActivity).supportActionBar?.title =
+            getString(R.string.screen_name_friends)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -53,14 +67,15 @@ class FriendsFragment : MvpAppCompatFragment(R.layout.fragment_friends), Friends
         friendRefreshLayout.isRefreshing = isRefreshing
     }
 
-    override fun showError(errorMessage: String) {
+    override fun showError(throwable: Throwable) {
+        val errorMessage = getString(R.string.default_connection_error)
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
 
         if (adapter.itemCount == 0) {
             with(errorTextView) {
                 setVisibility(true)
                 text = String.format(
-                    this@FriendsFragment.resources.getString(R.string.error_text),
+                    this@FriendsFragment.getString(R.string.error_text),
                     errorMessage
                 )
             }

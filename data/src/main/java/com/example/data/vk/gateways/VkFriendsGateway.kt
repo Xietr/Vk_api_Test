@@ -5,11 +5,10 @@ import com.example.domain.entities.VkFriendEntity
 import com.example.domain.gateways.FriendsGateway
 import com.vk.api.sdk.VK
 import io.reactivex.Single
-import java.util.*
 
 class VkFriendsGateway(private val vkApi: VK) : FriendsGateway {
 
-    override fun getFriends(page: Int, pageSize: Int): Single<ArrayList<VkFriendEntity>> {
+    override fun getFriends(page: Int, pageSize: Int): Single<List<VkFriendEntity>> {
         return Single.fromCallable {
             vkApi.executeSync(VKFriendsRequest(page, pageSize))
         }

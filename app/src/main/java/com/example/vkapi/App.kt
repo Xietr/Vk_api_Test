@@ -3,15 +3,15 @@ package com.example.vkapi
 import android.app.Application
 import com.example.vkapi.di.AppComponent
 import com.example.vkapi.di.DaggerAppComponent
+import com.vk.api.sdk.VK
 
 class App : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-        appComponent = DaggerAppComponent.create()
+    val appComponent: AppComponent by lazy {
+        initializeComponent()
     }
 
-    companion object {
-        lateinit var appComponent: AppComponent
+    private fun initializeComponent(): AppComponent {
+        return DaggerAppComponent.factory().create(VK)
     }
 }

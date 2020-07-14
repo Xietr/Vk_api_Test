@@ -7,6 +7,6 @@
         android:icon="@drawable/ic_logout"
         android:title="@string/vk_logout"
         android:visible="false"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
 </menu>

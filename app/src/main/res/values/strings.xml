@@ -1,9 +1,18 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Vk api</string>
     <string name="authorization_text">Чтобы пользоваться данным приложением, пожалуйста войдите при помощью вк</string>
     <string name="vk_logout">Выйти из аккаунта ВК</string>
     <string name="friend_name_and_surname">%1$s %2$s</string><!--Name Surname-->
     <string name="error_text">%1$s\nЧтобы обновить страницу потяните вниз</string>
+    <string name="friend_image_view_description">Photo of friend</string>
 
-    <integer name="com_vk_sdk_AppId">7366284</integer>
+    <string name="screen_authorization">Authorization</string>
+    <string name="screen_name_friends">Friends</string>
+
+    <string name="default_connection_error">Ошибка подключения</string>
+    <string name="exit_confirmation_question">Вы действительно хотите выйти из аккаунта?</string>
+    <string name="positive_button">Да</string>
+    <string name="negative_button">Нет</string>
+
+    <integer name="com_vk_sdk_AppId" tools:ignore="UnusedResources">7366284</integer>
 </resources>
